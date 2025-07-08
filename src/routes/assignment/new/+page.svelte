@@ -84,7 +84,7 @@
 		text-align: center;
 		width: 100%;
 		max-width: 600px;
-		overflow: hidden; 
+		overflow: hidden;
 	}
 
 	.card h1 {

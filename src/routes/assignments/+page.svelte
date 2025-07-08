@@ -114,17 +114,17 @@
 
 	.assignment-item a {
 		color: white;
-    text-decoration: none;
-    font-weight: 500;
-  }
+		text-decoration: none;
+		font-weight: 500;
+	}
 
-  .assignment-item a:hover {
-    text-decoration: underline;
-  }
+	.assignment-item a:hover {
+		text-decoration: underline;
+	}
 
-  .assignment-item button {
-    background: #e53e3e;
-    color: white;
+	.assignment-item button {
+		background: #e53e3e;
+		color: white;
 		border: none;
 		border-radius: 0.75rem;
 		padding: 0.5rem 1rem;
