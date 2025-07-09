@@ -1,6 +1,8 @@
-function addNumbers(a, b) {
-	let result = a + b;
-	return result;
+function   addNumbers(  a,b ) {
+let result=a+b
+return result
 }
 
-console.log(addNumbers(3, 4));
+const   unusedVar  =  42
+
+console.log(addNumbers( 1,2 ))
