@@ -51,6 +51,8 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+		padding: 2rem;
 	}
 
 	.card {

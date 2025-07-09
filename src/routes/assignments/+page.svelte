@@ -7,6 +7,7 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 
 	let assignments = [];
+	let isAuthenticated = false;
 
 	onMount(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -38,33 +39,36 @@
 	};
 </script>
 
-<Header />
+{#if isAuthenticated}
+	<Header />
 
-<div class="container">
-	<div class="card">
-		<h1 class="all-tasks-heading">All Tasks</h1>
-		<a href="/assignment/new" class="create-task-button">Create a New Task</a>
-		<ul class="assignment-list">
-			{#each assignments as assignment (assignment.id)}
-				<li class="assignment-item">
-					<div class="assignment-content">
-						<a href={`/assignment/${assignment.id}`} class="task-title-button">{assignment.title}</a
-						>
-						<div class="assignment-details">
-							<p class="assignment-description">{assignment.description}</p>
-							<p class="assignment-status">Status: {assignment.status}</p>
-							<p class="assignment-due-date">
-								<span class="bold-blue">Completion Date:</span>
-								<span class="bold-blue-date">{assignment.due_date}</span>
-							</p>
+	<div class="container">
+		<div class="card">
+			<h1 class="all-tasks-heading">All Tasks</h1>
+			<a href="/assignment/new" class="create-task-button">Create a New Task</a>
+			<ul class="assignment-list">
+				{#each assignments as assignment (assignment.id)}
+					<li class="assignment-item">
+						<div class="assignment-content">
+							<a href={`/assignment/${assignment.id}`} class="task-title-button"
+								>{assignment.title}</a
+							>
+							<div class="assignment-details">
+								<p class="assignment-description">{assignment.description}</p>
+								<p class="assignment-status">Status: {assignment.status}</p>
+								<p class="assignment-due-date">
+									<span class="bold-blue">Completion Date:</span>
+									<span class="bold-blue-date">{assignment.due_date}</span>
+								</p>
+							</div>
 						</div>
-					</div>
-					<button on:click={() => remove(assignment.id)}>Delete</button>
-				</li>
-			{/each}
-		</ul>
+						<button on:click={() => remove(assignment.id)}>Delete</button>
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.container {
