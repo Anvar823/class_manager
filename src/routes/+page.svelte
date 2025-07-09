@@ -2,6 +2,12 @@
 	import Header from '$lib/components/Header.svelte';
 </script>
 
+<svelte:head>
+  <title>Author</title>
+  <meta name="author" content="Anvar Gilmiev" />
+  <meta name="description" content="Class Assignment Application" />
+</svelte:head>
+
 <Header />
 <div
 	style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f8fafc 0%,#e0e7ff 100%);"
