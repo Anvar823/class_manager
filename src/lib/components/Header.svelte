@@ -25,7 +25,7 @@
 	<nav class="nav">
 		<a href="/about" class="nav-link">About</a>
 		<a href="#" class="nav-link" on:click|preventDefault={() => handleNavigation('/assignments')}>
-			Go to Assignments
+			Assignments
 		</a>
 		{#if isAuthenticated}
 			<a href="#" class="nav-link" on:click|preventDefault={() => handleNavigation('/logout')}>
@@ -85,7 +85,6 @@
 		}
 
 		.nav {
-			width: 100%;
 			justify-content: space-around;
 			margin-top: 1rem;
 		}
