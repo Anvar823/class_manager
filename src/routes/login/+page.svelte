@@ -19,8 +19,8 @@
 
 <svelte:head>
   <title>Author</title>
-  <meta name="author" content="Anvar Gilmiev" />
-  <meta name="description" content="Class Assignment Application" />
+  <meta name="author" content="Anvar Gilmiev">
+  <meta name="description" content="Class Assignment Application">
 </svelte:head>
 
 <Header />
