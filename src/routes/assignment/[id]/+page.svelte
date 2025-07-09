@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-  import { getAssignmentById, updateAssignmentStatus } from '$lib/services/firebase';
+	import { getAssignmentById, updateAssignmentStatus } from '$lib/services/firebase';
 	import { goto } from '$app/navigation';
 
 	let assignment = null;
-  let newStatus = '';
+	let newStatus = '';
 
 	export let data = {
 		id: ''
@@ -12,19 +12,19 @@
 
 	onMount(async () => {
 		assignment = await getAssignmentById(data.id);
-    newStatus = assignment.status;
+		newStatus = assignment.status;
 	});
 
 	const backToAssignments = () => {
 		goto('/assignments');
 	};
 
-  const updateStatus = async () => {
-    if (newStatus !== assignment.status) {
-      await updateAssignmentStatus(data.id, newStatus);
-      assignment.status = newStatus;
-    }
-  };
+	const updateStatus = async () => {
+		if (newStatus !== assignment.status) {
+			await updateAssignmentStatus(data.id, newStatus);
+			assignment.status = newStatus;
+		}
+	};
 </script>
 
 <div class="container">
@@ -32,35 +32,36 @@
 		<div class="card">
 			<h1>{assignment.title}</h1>
 
+			<div class="assignment-description">
+				<strong>description:</strong>
+				{assignment.description}
+			</div>
+			<div class="assignment-status">
+				<strong>status:</strong>
+				{assignment.status}
+			</div>
+			<div class="assignment-due-date">
+				<strong>completion date:</strong>
+				{assignment.due_date}
+			</div>
 
+			<div class="form-group">
+				<label for="status">update status:</label>
+				<select id="status" bind:value={newStatus}>
+					<option value="in process">in process</option>
+					<option value="completed">completed</option>
+					<option value="postponed">postponed</option>
+				</select>
+			</div>
 
-      <div class="assignment-description">
-        <strong>description:</strong> {assignment.description}
+			<div class="button-group">
+				<button on:click={updateStatus}>update status</button>
+				<a href="#" on:click={backToAssignments}>back to tasks</a>
+			</div>
 		</div>
-      <div class="assignment-status">
-        <strong>status:</strong> {assignment.status}
-</div>
-      <div class="assignment-due-date">
-        <strong>completion date:</strong> {assignment.due_date}
-    </div>
-
-      <div class="form-group">
-        <label for="status">update status:</label>
-        <select id="status" bind:value={newStatus}>
-          <option value="in process">in process</option>
-          <option value="completed">completed</option>
-          <option value="postponed">postponed</option>
-        </select>
-		</div>
-
-      <div class="button-group">
-        <button on:click={updateStatus}>update status</button>
-        <a href="#" on:click={backToAssignments}>back to tasks</a>
-</div>
-    </div>
-  {:else}
-    <p>loading...</p>
-  {/if}
+	{:else}
+		<p>loading...</p>
+	{/if}
 </div>
 
 <style>
@@ -117,95 +118,93 @@
 		background: #4f46e5;
 	}
 
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
 
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #3730a3;
-  }
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+		color: #3730a3;
+	}
 
-  .form-group select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #c7d2fe;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-  }
+	.form-group select {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #c7d2fe;
+		border-radius: 0.75rem;
+		font-size: 1rem;
+	}
 
-  .form-group select:focus {
-    border-color: #6366f1;
-    outline: none;
-  }
+	.form-group select:focus {
+		border-color: #6366f1;
+		outline: none;
+	}
 
-  .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  }
+	.button-group {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+	}
 
-  .button-group button,
-  .button-group a {
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem;
-    font-weight: 500;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+	.button-group button,
+	.button-group a {
+		padding: 0.75rem 1.5rem;
+		border-radius: 0.75rem;
+		font-weight: 500;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
 
-  .button-group button {
-    background: #6366f1;
-    color: white;
-    border: none;
-  }
+	.button-group button {
+		background: #6366f1;
+		color: white;
+		border: none;
+	}
 
-  .button-group button:hover {
-    background: #4f46e5;
-  }
+	.button-group button:hover {
+		background: #4f46e5;
+	}
 
-  .button-group a {
-    background: #e5e7eb;
-    color: #3730a3;
-    text-decoration: none;
-  }
+	.button-group a {
+		background: #e5e7eb;
+		color: #3730a3;
+		text-decoration: none;
+	}
 
-  .button-group a:hover {
-    background: #d1d5db;
-  }
+	.button-group a:hover {
+		background: #d1d5db;
+	}
 
-  .assignment-description {
-    background-color: #f8fafc;
-    padding: 1rem;
-    border-radius: 0.75rem;
-    margin-bottom: 1rem;
-    color: #3730a3;
-    font-size: 1.1rem;
-    line-height: 1.6;
+	.assignment-description {
+		background-color: #f8fafc;
+		padding: 1rem;
+		border-radius: 0.75rem;
+		margin-bottom: 1rem;
+		color: #3730a3;
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
 
-  }
+	.assignment-status {
+		background-color: #e0e7ff;
+		padding: 0.75rem;
+		border-radius: 0.75rem;
+		margin-bottom: 1rem;
+		color: #3730a3;
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
 
-  .assignment-status {
-    background-color: #e0e7ff;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
-    margin-bottom: 1rem;
-    color: #3730a3;
-	  font-size: 1.1rem;
-    line-height: 1.6;
-  }
-
-  .assignment-due-date {
-    background-color: #f8fafc;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
-    margin-bottom: 1rem;
-    color: #3730a3;
-	  font-size: 1.1rem;
-    line-height: 1.6;
-  }
+	.assignment-due-date {
+		background-color: #f8fafc;
+		padding: 0.75rem;
+		border-radius: 0.75rem;
+		margin-bottom: 1rem;
+		color: #3730a3;
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
 </style>
-
