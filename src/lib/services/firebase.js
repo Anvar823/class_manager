@@ -1,51 +1,38 @@
-import { initializeApp } from 'firebase/app';
-import {
-	getFirestore,
-	collection,
-	getDocs,
-	deleteDoc,
-	doc,
-	addDoc,
-	getDoc
-} from 'firebase/firestore';
+import { auth, db } from '$lib/firebaseConfig';
+import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 
-const firebaseConfig = {
-	apiKey: 'AIzaSyBbLDQPLSf1ogOMuTvWb4Q7IyTSLpZc_Zk',
-	authDomain: 'my-app-2-73334.firebaseapp.com',
-	projectId: 'my-app-2-73334',
-	storageBucket: 'my-app-2-73334.firebasestorage.app',
-	messagingSenderId: '631810775195',
-	appId: '1:631810775195:web:560a0e8353344f00c6ce3e',
-	measurementId: 'G-927EW3TPKK'
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-export async function createAssignment(assignment) {
-	try {
-		const docRef = await addDoc(collection(db, 'my app 2'), assignment);
+async function createAssignment(assignment) {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error('User not authenticated');
+    const docRef = await addDoc(collection(db, 'my app 2'), { ...assignment, status: 'opened', userId: user.uid });
 		console.log('Document written with ID: ', docRef.id);
 	} catch (e) {
 		console.error('Error adding document: ', e);
 	}
 }
 
-export async function getAssignments() {
+async function getAssignments() {
+  const user = auth.currentUser;
+  if (!user) throw new Error('User not authenticated');
 	const querySnapshot = await getDocs(collection(db, 'my app 2'));
-	return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })).filter(doc => doc.userId === user.uid);
 }
 
-export async function deleteAssignment(id) {
+async function deleteAssignment(id) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('User not authenticated');
 	await deleteDoc(doc(db, 'my app 2', id));
 }
 
-export async function getAssignmentById(id) {
+async function getAssignmentById(id) {
 	try {
+    const user = auth.currentUser;
+    if (!user) throw new Error('User not authenticated');
 		const docRef = doc(db, 'my app 2', id);
 		const docSnap = await getDoc(docRef);
 
-		if (docSnap.exists()) {
+    if (docSnap.exists() && docSnap.data().userId === user.uid) {
 			return { id: docSnap.id, ...docSnap.data() };
 		} else {
 			console.log('No such document!');
@@ -56,3 +43,17 @@ export async function getAssignmentById(id) {
 		return null;
 	}
 }
+
+async function updateAssignmentStatus(id, newStatus) {
+	try {
+    const user = auth.currentUser;
+    if (!user) throw new Error('User not authenticated');
+		const docRef = doc(db, 'my app 2', id);
+		await updateDoc(docRef, { status: newStatus });
+		console.log('Document updated with ID: ', id);
+	} catch (e) {
+		console.error('Error updating document: ', e);
+	}
+}
+
+export { createAssignment, getAssignments, deleteAssignment, getAssignmentById, updateAssignmentStatus };

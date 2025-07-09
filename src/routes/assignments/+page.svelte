@@ -3,7 +3,16 @@
 	let assignments = [];
 
 	const load = async () => {
-		assignments = await getAssignments();
+    	const data = await getAssignments();
+    	assignments = data.filter(
+        	(a) =>
+            	!(
+                	(!a.title || a.title.trim() === "") &&
+                	(!a.description || a.description.trim() === "") &&
+                	(!a.due_date || a.due_date.trim() === "") &&
+                	a.status === "opened"
+            	)
+    	);
 	};
 
 	const remove = async (id) => {
@@ -16,8 +25,8 @@
 
 <div class="container">
 	<div class="card">
-		<h1>list of tasks</h1>
-		<a href="/assignment/new">new task</a>
+		<h1>all tasks</h1>
+		<a href="/assignment/new">create a new task</a>
 		<ul class="assignment-list">
 			{#each assignments as assignment (assignment.id)}
 				<li class="assignment-item">
@@ -25,8 +34,8 @@
 						<a href={`/assignment/${assignment.id}`}>{assignment.title}</a>
 						<div class="assignment-details">
 							<p class="assignment-description">{assignment.description}</p>
-							<p>Status: {assignment.status}</p>
-							<p>completion date: {assignment.due_date}</p>
+              <p class="assignment-status">status: {assignment.status}</p>
+              <p class="assignment-due-date">completion date: {assignment.due_date}</p>
 						</div>
 					</div>
 					<button on:click={() => remove(assignment.id)}>delete</button>
@@ -57,10 +66,6 @@
 		width: 100%;
 		max-width: 600px;
 		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
 	}
 
 	.card h1 {
@@ -118,10 +123,6 @@
 		font-weight: 500;
 	}
 
-	.assignment-item a:hover {
-		text-decoration: underline;
-	}
-
 	.assignment-item button {
 		background: #e53e3e;
 		color: white;
@@ -137,10 +138,19 @@
 	}
 
 	.assignment-description {
-		color: #3730a3;
-		padding: 0.5rem;
-		border-radius: 0.5rem;
-		margin-left: 1rem;
+	color: #3730a3;
+	padding: 0.25rem 0.5rem;
+	border-radius: 0.5rem;
+	margin-left: 1rem;
+	white-space: nowrap;
+	overflow-x: auto;
+	max-width: 200px;
+	scrollbar-width: none; 
+	-ms-overflow-style: none; 
+	}
+
+	.assignment-description::-webkit-scrollbar {
+		display: none; 
 	}
 
 	.assignment-content {
@@ -160,4 +170,22 @@
 		margin: 0.25rem 0;
 		color: #3730a3;
 	}
+
+  .assignment-status {
+    background-color: #e0e7ff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    color: #3730a3;
+    margin-top: 0.5rem;
+  }
+
+  .assignment-due-date {
+    background-color: #f8fafc;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 700; /* Make the text bold */
+    color: #3730a3;
+    margin-top: 0.5rem;
+  }
 </style>
