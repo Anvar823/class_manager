@@ -18,36 +18,80 @@
 	};
 </script>
 
-<header
-	style="background: #3730a3; padding: 1.5rem; color: white; display: flex; justify-content: space-between; align-items: center;"
->
-	<a href="/" style="text-decoration: none; color: inherit;">
-		<h1 style="font-size: 2rem; font-weight: 800; letter-spacing: 1px;">
-			Class Assignment Manager
-		</h1>
+<header class="header">
+	<a href="/" class="logo">
+		<h1>Class Assignment Manager</h1>
 	</a>
-	<nav style="display: flex; gap: 2rem;">
-		<a
-			href="/about"
-			style="text-decoration: none; color: inherit; font-size: 2rem; font-weight: 600;">About</a
-		>
-		<a
-			href="#"
-			on:click|preventDefault={() => handleNavigation('/assignments')}
-			style="text-decoration: none; color: inherit; font-size: 2rem; font-weight: 600;"
-			>Go to Assignments</a
-		>
+	<nav class="nav">
+		<a href="/about" class="nav-link">About</a>
+		<a href="#" class="nav-link" on:click|preventDefault={() => handleNavigation('/assignments')}>
+			Go to Assignments
+		</a>
 		{#if isAuthenticated}
-			<a
-				href="#"
-				on:click|preventDefault={() => handleNavigation('/logout')}
-				style="text-decoration: none; color: inherit; font-size: 2rem; font-weight: 600;">Log Out</a
-			>
+			<a href="#" class="nav-link" on:click|preventDefault={() => handleNavigation('/logout')}>
+				Log Out
+			</a>
 		{:else}
-			<a
-				href="/login"
-				style="text-decoration: none; color: inherit; font-size: 2rem; font-weight: 600;">Log In</a
-			>
+			<a href="/login" class="nav-link">Log In</a>
 		{/if}
 	</nav>
 </header>
+
+<style>
+	.header {
+		background: #3730a3;
+		padding: 1.5rem;
+		color: white;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	.logo {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.logo h1 {
+		font-size: 2rem;
+		font-weight: 800;
+		letter-spacing: 1px;
+		margin: 0;
+	}
+
+	.nav {
+		display: flex;
+		gap: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.nav-link {
+		text-decoration: none;
+		color: inherit;
+		font-size: 2rem;
+		font-weight: 600;
+	}
+
+	@media (max-width: 768px) {
+		.header {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 1rem;
+		}
+
+		.logo h1 {
+			font-size: 1.5rem;
+		}
+
+		.nav {
+			width: 100%;
+			justify-content: space-around;
+			margin-top: 1rem;
+		}
+
+		.nav-link {
+			font-size: 1.3rem;
+		}
+	}
+</style>

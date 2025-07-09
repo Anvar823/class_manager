@@ -200,7 +200,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 991px) {
     .card {
       padding: 1.25rem 1rem;
     }
