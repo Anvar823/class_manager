@@ -2,17 +2,13 @@
 	import { onMount } from 'svelte';
 	import { getAssignmentById, updateAssignment } from '$lib/services/firebase';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	let title = '';
 	let description = '';
-	let assignmentId = '';
-
-	export let data = {
-		id: ''
-	};
+	$: assignmentId = $page.params.id;
 
 	onMount(async () => {
-		assignmentId = data.id;
 		const assignment = await getAssignmentById(assignmentId);
 		title = assignment.title;
 		description = assignment.description;
