@@ -1,5 +1,5 @@
 function addNumbers(a, b) {
-	let result = a + b;
+	const result = a + b;
 	return result;
 }
 
