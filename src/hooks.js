@@ -1,4 +1,3 @@
-// import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '$lib/firebaseConfig';
 
 export const handle = async ({ event, resolve }) => {
