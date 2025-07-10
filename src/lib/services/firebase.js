@@ -62,10 +62,23 @@ async function updateAssignmentStatus(id, newStatus) {
 	}
 }
 
+async function updateAssignment(id, updatedData) {
+	try {
+		const user = auth.currentUser;
+		if (!user) throw new Error('User not authenticated');
+		const docRef = doc(db, 'my app 2', id);
+		await updateDoc(docRef, updatedData);
+		console.log('Document updated with ID: ', id);
+	} catch (e) {
+		console.error('Error updating document: ', e);
+	}
+}
+
 export {
 	createAssignment,
 	getAssignments,
 	deleteAssignment,
 	getAssignmentById,
-	updateAssignmentStatus
+	updateAssignmentStatus,
+	updateAssignment
 };

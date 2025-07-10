@@ -25,6 +25,10 @@
 			assignment.status = newStatus;
 		}
 	};
+
+	const editAssignment = () => {
+		goto(`/assignment/${data.id}/edit`);
+	};
 </script>
 
 <svelte:head>
@@ -62,6 +66,7 @@
 
 			<div class="button-group">
 				<button on:click={updateStatus}>update status</button>
+				<button on:click={editAssignment}>edit assignment</button>
 				<a href="#" on:click={backToAssignments}>back to tasks</a>
 			</div>
 		</div>
@@ -101,27 +106,34 @@
 		letter-spacing: -1px;
 	}
 
-	.card p {
-		font-size: 1.1rem;
-		color: #444;
-		margin-bottom: 1rem;
-	}
-
-	.card a {
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		background: #6366f1;
-		color: white;
+	.assignment-description {
+		background-color: #f8fafc;
+		padding: 1rem;
 		border-radius: 0.75rem;
-		text-decoration: none;
-		font-weight: 500;
+		margin-bottom: 1rem;
+		color: #3730a3;
 		font-size: 1.1rem;
-		box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-		transition: background 0.2s;
+		line-height: 1.6;
 	}
 
-	.card a:hover {
-		background: #4f46e5;
+	.assignment-status {
+		background-color: #e0e7ff;
+		padding: 0.75rem;
+		border-radius: 0.75rem;
+		margin-bottom: 1rem;
+		color: #3730a3;
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
+
+	.assignment-due-date {
+		background-color: #f8fafc;
+		padding: 0.75rem;
+		border-radius: 0.75rem;
+		margin-bottom: 1rem;
+		color: #3730a3;
+		font-size: 1.1rem;
+		line-height: 1.6;
 	}
 
 	.form-group {
@@ -141,11 +153,8 @@
 		border: 1px solid #c7d2fe;
 		border-radius: 0.75rem;
 		font-size: 1rem;
-	}
-
-	.form-group select:focus {
-		border-color: #6366f1;
-		outline: none;
+		font-family: inherit;
+		color: #3730a3;
 	}
 
 	.button-group {
@@ -184,33 +193,28 @@
 		background: #d1d5db;
 	}
 
-	.assignment-description {
-		background-color: #f8fafc;
-		padding: 1rem;
-		border-radius: 0.75rem;
-		margin-bottom: 1rem;
-		color: #3730a3;
-		font-size: 1.1rem;
-		line-height: 1.6;
-	}
+	@media (max-width: 600px) {
+		.card {
+			padding: 1.5rem 1rem;
+		}
 
-	.assignment-status {
-		background-color: #e0e7ff;
-		padding: 0.75rem;
-		border-radius: 0.75rem;
-		margin-bottom: 1rem;
-		color: #3730a3;
-		font-size: 1.1rem;
-		line-height: 1.6;
-	}
+		.card h1 {
+			font-size: 1.8rem;
+		}
 
-	.assignment-due-date {
-		background-color: #f8fafc;
-		padding: 0.75rem;
-		border-radius: 0.75rem;
-		margin-bottom: 1rem;
-		color: #3730a3;
-		font-size: 1.1rem;
-		line-height: 1.6;
+		.form-group {
+			margin-bottom: 1rem;
+		}
+
+		.form-group select {
+			padding: 0.5rem;
+			font-size: 0.9rem;
+		}
+
+		.button-group button,
+		.button-group a {
+			padding: 0.5rem 1rem;
+			font-size: 0.9rem;
+		}
 	}
 </style>

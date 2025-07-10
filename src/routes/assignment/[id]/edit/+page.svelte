@@ -1,10 +1,28 @@
-<script>
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { getAssignmentById, updateAssignment } from '$lib/services/firebase';
+	import { goto } from '$app/navigation';
+
 	let title = '';
 	let description = '';
+	let assignmentId = '';
 
-	function saveAssignment() {
+	export let data = {
+		id: ''
+	};
+
+	onMount(async () => {
+		assignmentId = data.id;
+		const assignment = await getAssignmentById(assignmentId);
+		title = assignment.title;
+		description = assignment.description;
+	});
+
+	const saveAssignment = async () => {
+		await updateAssignment(assignmentId, { title, description });
 		alert('Assignment saved!');
-	}
+		goto('/assignments');
+	};
 </script>
 
 <div
